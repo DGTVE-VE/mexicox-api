@@ -58,7 +58,7 @@ Route::post('v1/suscribe', function () {
     }
 });
 
-Route::get('v1/decrypt', function () {
+Route::get('decrypt', function () {
    $data = '68H5y5qsB+1HuAZnucmC+Zc1sGoT2GGQTsWHVJ6wd+jSuV1p1YG4RBBesDt6OHB+BGb4NgP3k/Lk
 bGxnJ2lHig+3pcTdJ5M8Zph6Kg5fDjwcDqWLuRSYQ0tPxgrdZIrCensWzqgjcdi4JJ8kHsruLCnY
 mAPbsautRmFfLRWK+qnp0On7CuMfco0+dx9iOt5EuZhcULrwZgTrKHyadhI1uX47w5wHxyx5P7vZ

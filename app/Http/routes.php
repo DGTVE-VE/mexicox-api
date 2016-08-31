@@ -52,7 +52,7 @@ Route::post('v1/suscribe', function () {
 //        
 //        $newUser->profile()->save($profile);
         
-        return response('Usuario registrado', 201);
+//        return response('Usuario registrado', 201);
     } catch (Exception $e) {
         echo 'Excepción capturada: ', $e->getMessage(), "\n";
     }

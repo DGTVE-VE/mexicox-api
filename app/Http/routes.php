@@ -19,6 +19,7 @@ Route::post('v1/suscribe', function () {
     try {
         JWTAuth::parseToken()->authenticate();
         $data = Illuminate\Support\Facades\Input::get('data');        
+        var_dump ($data);
         $base64 = base64_decode ($data);
         $key = env('ENC_KEY');
         

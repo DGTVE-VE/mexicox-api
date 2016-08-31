@@ -25,32 +25,32 @@ Route::post('v1/suscribe', function () {
         $json = openssl_decrypt($base64,"AES-256-ECB",$key);  
         $rawUserData = json_decode($json, true);
         $newUser = new \App\Model\Auth_user();
-        
-        $newUser->username  = $rawUserData['sobrenombre'];
-        $newUser->email     = $rawUserData['email'];
-        $newUser->password   = $rawUserData['password'];
-        $newUser->first_name= $rawUserData['nombre'];
-        $newUser->last_name = $rawUserData['apellidos'];
-        $newUser->is_active = 1;
-        $newUser->date_joined = date('Y-m-d H:i:s');
-        
-        $newUser->save();
-        
-        $profile = new App\Model\Auth_userprofile;
-        $profile->name = $rawUserData['nombre'] . ' ' . $rawUserData['apellidos'];
-        $profile->gender = $rawUserData['genero'];
-        $profile->year_of_birth = $rawUserData['anioNacimiento'];
-        $profile->level_of_education = $rawUserData['nivelEstudios'];
-        $profile->country = $rawUserData['pais'];
-        $profile->city = $rawUserData['estado'];
-        $profile->mailing_address = $rawUserData['codigoPostal'];
-        
-        $profile->courseware = 'course.xml';
-        $profile->allow_certificate = 1;
-        $profile->meta = '{"session_id": null}';
-        $profile->goals = '';
-        
-        $newUser->profile()->save($profile);
+        var_dump (  $rawUserData );
+//        $newUser->username  = $rawUserData['sobrenombre'];
+//        $newUser->email     = $rawUserData['email'];
+//        $newUser->password   = $rawUserData['password'];
+//        $newUser->first_name= $rawUserData['nombre'];
+//        $newUser->last_name = $rawUserData['apellidos'];
+//        $newUser->is_active = 1;
+//        $newUser->date_joined = date('Y-m-d H:i:s');
+//        
+//        $newUser->save();
+//        
+//        $profile = new App\Model\Auth_userprofile;
+//        $profile->name = $rawUserData['nombre'] . ' ' . $rawUserData['apellidos'];
+//        $profile->gender = $rawUserData['genero'];
+//        $profile->year_of_birth = $rawUserData['anioNacimiento'];
+//        $profile->level_of_education = $rawUserData['nivelEstudios'];
+//        $profile->country = $rawUserData['pais'];
+//        $profile->city = $rawUserData['estado'];
+//        $profile->mailing_address = $rawUserData['codigoPostal'];
+//        
+//        $profile->courseware = 'course.xml';
+//        $profile->allow_certificate = 1;
+//        $profile->meta = '{"session_id": null}';
+//        $profile->goals = '';
+//        
+//        $newUser->profile()->save($profile);
         
         return response('Usuario registrado', 201);
     } catch (Exception $e) {

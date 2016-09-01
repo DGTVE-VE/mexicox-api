@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::post('v1/suscribe', function () {
     try {
+        JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
         JWTAuth::parseToken()->authenticate();
         $data = Illuminate\Support\Facades\Input::get('data');        
         
@@ -50,11 +51,13 @@ Route::post('v1/suscribe', function () {
         $profile->allow_certificate = 1;
         $profile->meta = '{"session_id": null}';
         $profile->goals = '';
-        
+        $profile->bio = 'is_teacher';
         $newUser->profile()->save($profile);
         
         return response('Usuario registrado', 201);
-    } catch (Exception $e) {
+    }catch(\Tymon\JWTAuth\Exceptions\JWTException $e){//general JWT exception
+        print  'Excepción capturada: ' . $e->getMessage();
+    }catch (Exception $e) {
         echo 'Excepción capturada: ', $e->getMessage(), "\n";
     }
 });
@@ -76,6 +79,7 @@ FbEtYxYVd4q1RJqH415j884Z+ttkBQl5itQ=';
 
 Route::get('v1/test', function () {
     try {
+        JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));        
         JWTAuth::parseToken()->authenticate();
         $payload = JWTAuth::parseToken()->getPayload();
         var_dump($payload);

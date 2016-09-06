@@ -15,10 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Routes::post('v1/enroll', function () {
+Route::post('v1/enroll', function () {
 
   try {
-      return response('Probando', 201);
 
       JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
       JWTAuth::parseToken()->authenticate();

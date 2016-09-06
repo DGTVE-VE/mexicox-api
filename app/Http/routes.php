@@ -18,7 +18,6 @@ Route::get('/', function () {
 Route::post('v1/enroll', function () {
 
   try {
-      return response('Probando 456', 201);
 
       JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
       JWTAuth::parseToken()->authenticate();
@@ -29,9 +28,9 @@ Route::post('v1/enroll', function () {
 
       $json = openssl_decrypt($base64,"AES-256-ECB",$key);
       $rawEnrollData = json_decode($json, true);
-
+  return response('Probando 0', 201);
       $id_usuario =  App\Model\Auth_user::whereemail($rawEnrollData['email'])->first()->id;
-
+  return response('Probando 9', 201);
       $enroll = new \App\Model\Student_courseenrollment();
       $enroll->user_id = $id_usuario;
       $enroll->course_id = $rawUserData['id_curso'];

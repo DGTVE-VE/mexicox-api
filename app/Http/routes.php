@@ -22,19 +22,15 @@ Route::post('v1/enroll', function () {
       JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
       JWTAuth::parseToken()->authenticate();
       $data = Illuminate\Support\Facades\Input::get('data');
-      return response('Probando 2', 201);
 
       $base64 = base64_decode ($data);
-      return response('Probando 3', 201);
       $key = env('ENC_KEY');
-      return response('Probando 4', 201);
 
       $json = openssl_decrypt($base64,"AES-256-ECB",$key);
-      return response('Probando 5', 201);
       $rawEnrollData = json_decode($json, true);
-      return response('Probando 6', 201);
 
       $id_usuario =  App\Model\Auth_user::whereemail($rawEnrollData['email'])->first()->id;
+
       $enroll = new \App\Model\Student_courseenrollment();
       $enroll->user_id = $id_usuario;
       $enroll->course_id = $rawUserData['id_curso'];

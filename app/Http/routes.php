@@ -12,7 +12,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Routes::post('v1/enroll', function () {
+Route::post('v1/enroll', function () {
   try {
       JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
       JWTAuth::parseToken()->authenticate();
@@ -36,6 +36,7 @@ Routes::post('v1/enroll', function () {
       echo 'Excepción capturada: ', $e->getMessage(), "\n";
   }
 });
+
 Route::post('v1/suscribe', function () {
     try {
         JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));

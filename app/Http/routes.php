@@ -18,6 +18,8 @@ Route::get('/', function () {
 Routes::post('v1/enroll', function () {
 
   try {
+      return response('Probando', 201);
+
       JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
       JWTAuth::parseToken()->authenticate();
       $data = Illuminate\Support\Facades\Input::get('data');

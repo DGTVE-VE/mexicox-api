@@ -1,5 +1,4 @@
 <?php
-
 /*
   |--------------------------------------------------------------------------
   | Application Routes
@@ -10,57 +9,43 @@
   | and give it the controller to call when that URI is requested.
   |
  */
-
 Route::get('/', function () {
     return view('welcome');
 });
-
-// Route::post('v1/enroll', function () {
-//
-//   try {
-//       JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
-//       JWTAuth::parseToken()->authenticate();
-//       $data = Illuminate\Support\Facades\Input::get('data');
-//
-//       $base64 = base64_decode ($data);
-//       $key = env('ENC_KEY');
-//
-//       $json = openssl_decrypt($base64,"AES-256-ECB",$key);
-//       $rawEnrollData = json_decode($json, true);
-//
-//       //$id_usuario =  App\Model\Auth_user::whereemail($rawEnrollData['email'])->first()->id;
-//
-//       $enroll = new \App\Model\Student_courseenrollment();
-//       $enroll->user_id = "2";
-//       $enroll->course_id = $rawUserData['id_curso'];
-//       $enroll->created = date('Y-m-d H:i:s');
-//       $enroll->is_active = 1;
-//       $enroll->mode = 'honor';
-//       $enroll->save();
-//
-//       return response('Usuario enrolado', 201);
-//
-//   }catch(\Tymon\JWTAuth\Exceptions\JWTException $e){//general JWT exception
-//       print  'Excepción capturada: ' . $e->getMessage();
-//   }catch (Exception $e) {
-//       echo 'Excepción capturada: ', $e->getMessage(), "\n";
-//   }
-//
-// });
-
+Routes::post('v1/enroll', function () {
+  try {
+      JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
+      JWTAuth::parseToken()->authenticate();
+      $data = Illuminate\Support\Facades\Input::get('data');
+      $base64 = base64_decode ($data);
+      $key = env('ENC_KEY');
+      $json = openssl_decrypt($base64,"AES-256-ECB",$key);
+      $rawEnrollData = json_decode($json, true);
+      $id_usuario =  App\Model\Auth_user::whereemail($rawEnrollData['email'])->first()->id;
+      $enroll = new \App\Model\Student_courseenrollment();
+      $enroll->user_id = $id_usuario;
+      $enroll->course_id = $rawUserData['id_curso'];
+      $enroll->created = date('Y-m-d H:i:s');
+      $enroll->is_active = 1;
+      $enroll->mode = 'honor';
+      $enroll->save();
+      return response('Usuario enrolado', 201);
+  }catch(\Tymon\JWTAuth\Exceptions\JWTException $e){//general JWT exception
+      print  'Excepción capturada: ' . $e->getMessage();
+  }catch (Exception $e) {
+      echo 'Excepción capturada: ', $e->getMessage(), "\n";
+  }
+});
 Route::post('v1/suscribe', function () {
     try {
         JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
         JWTAuth::parseToken()->authenticate();
         $data = Illuminate\Support\Facades\Input::get('data');
-
         $base64 = base64_decode ($data);
         $key = env('ENC_KEY');
-
         $json = openssl_decrypt($base64,"AES-256-ECB",$key);
         $rawUserData = json_decode($json, true);
         $newUser = new \App\Model\Auth_user();
-
         $newUser->username  = $rawUserData['sobrenombre'];
         $newUser->email     = $rawUserData['email'];
         $newUser->password   = $rawUserData['password'];
@@ -68,9 +53,7 @@ Route::post('v1/suscribe', function () {
         $newUser->last_name = $rawUserData['apellidos'];
         $newUser->is_active = 1;
         $newUser->date_joined = date('Y-m-d H:i:s');
-
         $newUser->save();
-
         $profile = new App\Model\Auth_userprofile;
         $profile->name = $rawUserData['nombre'] . ' ' . $rawUserData['apellidos'];
         $profile->gender = $rawUserData['genero'];
@@ -79,14 +62,12 @@ Route::post('v1/suscribe', function () {
         $profile->country = $rawUserData['pais'];
         $profile->city = $rawUserData['estado'];
         $profile->mailing_address = $rawUserData['codigoPostal'];
-
         $profile->courseware = 'course.xml';
         $profile->allow_certificate = 1;
         $profile->meta = '{"session_id": null}';
         $profile->goals = '';
         $profile->bio = 'is_teacher';
         $newUser->profile()->save($profile);
-
         return response('Usuario registrado', 201);
     }catch(\Tymon\JWTAuth\Exceptions\JWTException $e){//general JWT exception
         print  'Excepción capturada: ' . $e->getMessage();
@@ -94,8 +75,6 @@ Route::post('v1/suscribe', function () {
         echo 'Excepción capturada: ', $e->getMessage(), "\n";
     }
 });
-
-
 Route::get('phpinfo', function () {
     phpinfo();
 });
@@ -111,7 +90,6 @@ FbEtYxYVd4q1RJqH415j884Z+ttkBQl5itQ=';
    var_dump ($user);
    print openssl_error_string ( );
 });
-
 Route::get('v1/test', function () {
     try {
         JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));

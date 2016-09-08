@@ -8,5 +8,6 @@ class Student_courseenrollment extends Model
 {
     protected $table = 'student_courseenrollment';
   
+    public $timestamps = false;
 }
 

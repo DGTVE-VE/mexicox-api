@@ -13,28 +13,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post ('v1/enroll', function (){
+Route::any ('v1/enroll', function (){
     try {
         JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
         JWTAuth::parseToken()->authenticate();
-        $data = Illuminate\Support\Facades\Input::get('data');        
-        
-        $base64 = base64_decode ($data);
-        $key = env('ENC_KEY');
-        
-        $json = openssl_decrypt($base64,"AES-256-ECB",$key);  
-        $rawUserData = json_decode($json, true);
-        
-        $user = \App\Model\Auth_user::where ('email', $rawUserData['email'])->first();
-        
-        $enrollment = new App\Model\Student_courseenrollment();
-        $enrollment->user_id = $user->id;
-        $enrollment->course_id = $rawUserData['course_id'];
-        $enrollment->created = date('Y-m-d H:i:s');
-        $enrollment->is_active = 1;
-        $enrollment->mode = 'honor';
-        
-        $enrollment->save();
+//        $data = Illuminate\Support\Facades\Input::get('data');        
+//        
+//        $base64 = base64_decode ($data);
+//        $key = env('ENC_KEY');
+//        
+//        $json = openssl_decrypt($base64,"AES-256-ECB",$key);  
+//        $rawUserData = json_decode($json, true);
+//        
+//        $user = \App\Model\Auth_user::where ('email', $rawUserData['email'])->first();
+//        
+//        $enrollment = new App\Model\Student_courseenrollment();
+//        $enrollment->user_id = $user->id;
+//        $enrollment->course_id = $rawUserData['course_id'];
+//        $enrollment->created = date('Y-m-d H:i:s');
+//        $enrollment->is_active = 1;
+//        $enrollment->mode = 'honor';
+//        
+//        $enrollment->save();
         
         return response('Usuario inscrito en curso', 201);
     }catch(\Tymon\JWTAuth\Exceptions\JWTException $e){//general JWT exception

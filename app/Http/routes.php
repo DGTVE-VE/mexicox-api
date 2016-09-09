@@ -9,11 +9,38 @@
   | and give it the controller to call when that URI is requested.
   |
  */
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::any ('v1/enroll', function (){
+Route::post ('v1/chpwd', function (){
+    try {
+        JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
+        JWTAuth::parseToken()->authenticate();
+        $data = Illuminate\Support\Facades\Input::get('data');        
+        
+        $base64 = base64_decode ($data);
+        $key = env('ENC_KEY');
+        
+        $json = openssl_decrypt($base64,"AES-256-ECB",$key);  
+        $rawUserData = json_decode($json, true);
+        
+        $user = \App\Model\Auth_user::where ('email', $rawUserData['email'])->first();
+        $user->password = $rawUserData['password'];
+        
+        $user->save();
+        
+        return response('Update Success', 202);
+    }catch(\Tymon\JWTAuth\Exceptions\JWTException $e){//general JWT exception
+        print  'Excepción capturada: ' . $e->getMessage();
+    }catch (Exception $e) {
+        echo 'Excepción capturada: ', $e->getMessage(), "\n";
+    }
+});
+
+Route::post ('v1/enroll', function (){
     try {
         JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));
         JWTAuth::parseToken()->authenticate();

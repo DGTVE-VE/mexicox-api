@@ -143,3 +143,11 @@ Route::get('v1/test', function () {
         echo 'Excepción capturada: ', $e->getMessage(), "\n";
     }
 });
+
+Route::get ('mail/send', function(){
+    Mail::send('emails.mail', ['user' => $user], function ($m) use ($user) {
+            $m->from('avisos@mexicox.gob.mx', 'Avisos Mexico X');
+            $m->to('j.israel.toledo@gmail.com', 'Israel Toledo')->subject('Avisos Mexico X!');
+        });
+});
+    

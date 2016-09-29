@@ -145,7 +145,7 @@ Route::get('v1/test', function () {
 });
 
 Route::get ('mail/send', function(){
-    Mail::send('emails.mail', ['user' => $user], function ($m) use ($user) {
+    Mail::send('emails.mail', [], function ($m){
             $m->from('avisos@mexicox.gob.mx', 'Avisos Mexico X');
             $m->to('j.israel.toledo@gmail.com', 'Israel Toledo')->subject('Avisos Mexico X!');
         });

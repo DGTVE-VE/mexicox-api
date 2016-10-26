@@ -23,6 +23,7 @@ Route::post('test', function () {
         
         $base64 = base64_decode ($data);
         $key = env('ENC_KEY');
+        var_dump ( $base64);
         
         $json = openssl_decrypt($base64,"AES-256-ECB",$key);  
         $rawUserData = json_decode($json, true);

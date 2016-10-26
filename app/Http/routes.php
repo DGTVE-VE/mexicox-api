@@ -27,7 +27,7 @@ Route::post('test', function () {
         $json = openssl_decrypt($base64,"AES-256-ECB",$key);  
         $rawUserData = json_decode($json, true);
         
-        print $rawUserData;
+        var_dump ( $rawUserData);
         
 //        return response('Update Success', 202);
     }catch(\Tymon\JWTAuth\Exceptions\JWTException $e){//general JWT exception

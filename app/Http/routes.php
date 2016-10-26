@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test', function () {
+    print 'hola';
+});
+
 Route::post ('v1/chpwd', function (){
     try {
         JWTAuth::getJWTProvider()->setSecret(env('JWT_SECRET'));

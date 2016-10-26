@@ -26,6 +26,8 @@ Route::post('test', function () {
         var_dump ( $base64);
         
         $json = openssl_decrypt($base64,"AES-256-ECB",$key);  
+        var_dump ( $json);
+        
         $rawUserData = json_decode($json, true);
         
         var_dump ( $rawUserData);

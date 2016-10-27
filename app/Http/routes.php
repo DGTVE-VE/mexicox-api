@@ -28,8 +28,14 @@ Route::post('test', function () {
         $json = openssl_decrypt($base64,"AES-256-ECB",$key);          
         
         $rawUserData = json_decode($json, true);
-        $user = App\Model\Auth_userprofile::where('bio','=','is_teacher')->get();
-        var_dump ( $user);
+//        $user = App\Model\Auth_userprofile::where('bio','=','is_teacher')->get();
+             $teacher = Illuminate\Database\Eloquent\Model('auth_user')
+                ->join('auth_userprofile', 'auth_user.id', '=', 'auth_userprofile.user_id')
+                ->select('auth_user.id','auth_user.email', 'auth_userprofile.user_id','auth_userprofile.bio')
+                ->where('auth_user.email', 'soniamartinezctr@gmail.com')
+                ->get();
+        
+        var_dump ( $teacher);
         var_dump ( $rawUserData);
         
 //        return response('Update Success', 202);

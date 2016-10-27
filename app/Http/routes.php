@@ -10,7 +10,6 @@
   |
  */
 
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -29,7 +28,7 @@ Route::post('test', function () {
         
         $rawUserData = json_decode($json, true);
 //        $user = App\Model\Auth_userprofile::where('bio','=','is_teacher')->get();
-             $teacher = Illuminate\Database\Eloquent\Model('auth_user')
+             $teacher =  DB::table('auth_user')
                 ->join('auth_userprofile', 'auth_user.id', '=', 'auth_userprofile.user_id')
                 ->select('auth_user.id','auth_user.email', 'auth_userprofile.user_id','auth_userprofile.bio')
                 ->where('auth_user.email', 'soniamartinezctr@gmail.com')

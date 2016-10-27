@@ -33,6 +33,7 @@ Route::post('test', function () {
             ->join('auth_userprofile', 'auth_user.id', '=', 'auth_userprofile.user_id')
             ->select('auth_user.id', 'auth_user.email', 'auth_userprofile.user_id', 'auth_userprofile.bio')
             ->where('auth_user.email', 'soniamartinezctr@gmail.com')
+            ->where('auth_userprifile.bio', 'is_teacher')
             ->get();
         if (isset($teacher)){
             print'llego';

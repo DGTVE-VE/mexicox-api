@@ -37,7 +37,7 @@ Route::post('test', function () {
         if (isset($teacher)){
             print'llego';
         }else{
-            print'no';
+            App::abort(403, 'Unauthorized user.');
         }
 
         var_dump($teacher);

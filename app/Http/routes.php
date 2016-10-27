@@ -73,9 +73,9 @@ Route::post('v1/chpwd', function () {
             ->where('auth_user.email', $rawUserData['email'])
             ->where('auth_userprofile.bio', 'is_teacher')
             ->get();
-        $teacher = array_filter($teacher);
+        $teacher1 = array_filter($teacher);
 
-        if (!empty($teacher)) {
+        if (!empty($teacher1)) {
             print'cambio de contraseña';
 //            $user = \App\Model\Auth_user::where('email', $rawUserData['email'])->first();
 //            $user->password = $rawUserData['password'];

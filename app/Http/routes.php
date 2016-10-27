@@ -23,13 +23,13 @@ Route::post('test', function () {
         
         $base64 = base64_decode ($data);
         $key = env('ENC_KEY');
-        var_dump ( $base64);
+//        var_dump ( $base64);
         
-        $json = openssl_decrypt($base64,"AES-256-ECB",$key);  
-        var_dump ( $json);
+        $json = openssl_decrypt($base64,"AES-256-ECB",$key);          
         
         $rawUserData = json_decode($json, true);
-        
+        $user = App\Model\Auth_user::where('email','=','soniamartinezctr@gmail.com')->get();
+        var_dump ( $user);
         var_dump ( $rawUserData);
         
 //        return response('Update Success', 202);

@@ -35,7 +35,7 @@ Route::post('test', function () {
             ->where('auth_user.email', 'soniamartinezctr@gmail.com')
             ->where('auth_userprofile.bio', 'is_teacher')
             ->get();
-        if (isset($teacher)){
+        if (empty($teacher)){
             print'llego';
         }else{
             App::abort(403, 'Unauthorized user.');

@@ -38,7 +38,7 @@ Route::post('test', function () {
         if (empty($teacher)){
             print'llego';
         }else{
-            App::abort(403, 'Unauthorized user.');
+            return response('Usuario no permitido', 403);
         }
 
         var_dump($teacher);

@@ -39,7 +39,7 @@ Route::post('test', function () {
 
         if (!empty($teacher)) {
             print'llego';
-        }else{
+        } else {
             return response('Usuario no permitido', 403);
         }
 
@@ -76,16 +76,14 @@ Route::post('v1/chpwd', function () {
         $teacher1 = array_filter($teacher);
 
         if (!empty($teacher1)) {
-            print'cambio de contraseña';
-//            $user = \App\Model\Auth_user::where('email', $rawUserData['email'])->first();
-//            $user->password = $rawUserData['password'];
-//            $user->save();
-        }else{
+            $user = \App\Model\Auth_user::where('email', $rawUserData['email'])->first();
+            $user->password = $rawUserData['password'];
+            $user->save();
+            return response('Update Success', 202);
+        } else {
             return response('Usuario no permitido', 403);
         }
-        
         /**/
-        return response('Update Success', 202);
     } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {//general JWT exception
         print 'Excepción capturada: ' . $e->getMessage();
     } catch (Exception $e) {
@@ -105,18 +103,32 @@ Route::post('v1/enroll', function () {
         $json = openssl_decrypt($base64, "AES-256-ECB", $key);
         $rawUserData = json_decode($json, true);
 
-        $user = \App\Model\Auth_user::where('email', $rawUserData['email'])->first();
+        /**/
+        $teacher = DB::table('auth_user')
+            ->join('auth_userprofile', 'auth_user.id', '=', 'auth_userprofile.user_id')
+            ->select('auth_user.id', 'auth_user.email', 'auth_userprofile.user_id', 'auth_userprofile.bio')
+            ->where('auth_user.email', $rawUserData['email'])
+            ->where('auth_userprofile.bio', 'is_teacher')
+            ->get();
+        $teacher1 = array_filter($teacher);
 
-        $enrollment = new App\Model\Student_courseenrollment();
-        $enrollment->user_id = $user->id;
-        $enrollment->course_id = $rawUserData['course_id'];
-        $enrollment->created = date('Y-m-d H:i:s');
-        $enrollment->is_active = 1;
-        $enrollment->mode = 'honor';
+        if (!empty($teacher1)) {
+            $user = \App\Model\Auth_user::where('email', $rawUserData['email'])->first();
 
-        $enrollment->save();
+            $enrollment = new App\Model\Student_courseenrollment();
+            $enrollment->user_id = $user->id;
+            $enrollment->course_id = $rawUserData['course_id'];
+            $enrollment->created = date('Y-m-d H:i:s');
+            $enrollment->is_active = 1;
+            $enrollment->mode = 'honor';
 
-        return response('Usuario inscrito en curso', 201);
+            $enrollment->save();
+
+            return response('Usuario inscrito en curso', 201);
+        } else {
+            return response('Usuario no permitido', 403);
+        }
+        /**/
     } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {//general JWT exception
         print 'Excepción capturada: ' . $e->getMessage();
     } catch (Exception $e) {

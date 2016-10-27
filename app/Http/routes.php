@@ -66,11 +66,24 @@ Route::post('v1/chpwd', function () {
         $json = openssl_decrypt($base64, "AES-256-ECB", $key);
         $rawUserData = json_decode($json, true);
 
-        $user = \App\Model\Auth_user::where('email', $rawUserData['email'])->first();
-        $user->password = $rawUserData['password'];
+        /**/
+        $teacher = DB::table('auth_user')
+            ->join('auth_userprofile', 'auth_user.id', '=', 'auth_userprofile.user_id')
+            ->select('auth_user.id', 'auth_user.email', 'auth_userprofile.user_id', 'auth_userprofile.bio')
+            ->where('auth_user.email', $rawUserData['email'])
+            ->where('auth_userprofile.bio', 'is_teacher')
+            ->get();
+        $teacher = array_filter($teacher);
 
-        $user->save();
-
+        if (!empty($teacher)) {
+            print'cambio de contraseña';
+//            $user = \App\Model\Auth_user::where('email', $rawUserData['email'])->first();
+//            $user->password = $rawUserData['password'];
+//            $user->save();
+        }else{
+            return response('Usuario no permitido', 403);
+        }
+        /**/
         return response('Update Success', 202);
     } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {//general JWT exception
         print 'Excepción capturada: ' . $e->getMessage();

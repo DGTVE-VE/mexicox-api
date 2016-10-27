@@ -28,7 +28,7 @@ Route::post('test', function () {
         $json = openssl_decrypt($base64,"AES-256-ECB",$key);          
         
         $rawUserData = json_decode($json, true);
-        $user = App\Model\Auth_user::where('email','=','soniamartinezctr@gmail.com')->get();
+        $user = App\Model\Auth_userprofile::where('bio','=','is_teacher')->get();
         var_dump ( $user);
         var_dump ( $rawUserData);
         

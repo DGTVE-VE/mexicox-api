@@ -35,7 +35,9 @@ Route::post('test', function () {
             ->where('auth_user.email', 'soniamartinezctr@gmail.com')
             ->where('auth_userprofile.bio', 'is_teacher')
             ->get();
-        if (empty($teacher)){
+        $teacher = array_filter($teacher);
+
+        if (!empty($teacher)) {
             print'llego';
         }else{
             return response('Usuario no permitido', 403);

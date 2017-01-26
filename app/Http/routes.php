@@ -215,3 +215,9 @@ Route::get('mail/send', function() {
         $m->to('j.israel.toledo@gmail.com', 'Israel Toledo')->subject('Avisos Mexico X!');
     });
 });
+
+   
+
+Route::get('curso/{couser_id}','ServicioWebController@curso');  
+Route::get('user/{token}/progreso/{student_id}/{course_id}','ServicioWebController@progreso');  
+Route::get('historial/{modulo}','ServicioWebController@historial'); 

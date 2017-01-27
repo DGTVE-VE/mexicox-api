@@ -30,7 +30,7 @@ class ServicioWebController extends Controller {
     }
 
     public function progreso(Request $request, $student_id, $course_id) {
-        print 'llego';
+        
         $key = \Illuminate\Support\Facades\Input::get('key');
         $cliente = DB::table('cliente_api')->where('key', '=', $key)->get();
 //        print_r ($cliente);

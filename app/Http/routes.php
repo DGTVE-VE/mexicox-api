@@ -219,5 +219,5 @@ Route::get('mail/send', function() {
    
 
 Route::get('curso/{couser_id}','ServicioWebController@curso');  
-Route::get('user/{token}/progreso/{student_id}/{course_id}','ServicioWebController@progreso');  
+Route::get('user/progreso/{student_id}/{course_id}','ServicioWebController@progreso');  
 Route::get('historial/{modulo}','ServicioWebController@historial'); 

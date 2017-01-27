@@ -9,8 +9,9 @@ use App\Model\log_api;
 
 class ServicioWebController extends Controller {
 
-    public function curso(Request $request, $token,$course_id) {
-        $cliente = DB::table('cliente_api')->where('key', '=', $token)->get();
+    public function curso(Request $request, $course_id) {
+        $key = \Illuminate\Support\Facades\Input::get('key');
+        $cliente = DB::table('cliente_api')->where('key', '=', $key)->get();
 //        print_r ($cliente);
         if (!empty($cliente)) {
             ///alimentación de log             
@@ -28,8 +29,9 @@ class ServicioWebController extends Controller {
         }
     }
 
-    public function progreso(Request $request, $token, $student_id, $course_id) {
-        $cliente = DB::table('cliente_api')->where('key', '=', $token)->get();
+    public function progreso(Request $request, $student_id, $course_id) {
+        $key = \Illuminate\Support\Facades\Input::get('key');
+        $cliente = DB::table('cliente_api')->where('key', '=', $key)->get();
 //        print_r ($cliente);
         if (!empty($cliente)) {
             ///alimentación de log             
@@ -39,7 +41,7 @@ class ServicioWebController extends Controller {
             $log_api->save();
             ///consulta de recurso
             $curso = base64_decode($course_id);
-            $user = DB::table('courseware_studentmodule')
+            $user = DB::connection('edxapp')->table('courseware_studentmodule')
                     ->where('student_id', '=', $student_id)
                     ->where('course_id', '=', $curso)->get();
             return response()->json($user);
@@ -48,8 +50,9 @@ class ServicioWebController extends Controller {
         }
     }
 
-    public function historial(Request $request, $token, $student_module_id) {
-        $cliente = DB::table('cliente_api')->where('key', '=', $token)->get();
+    public function historial(Request $request, $student_module_id) {
+        $key = \Illuminate\Support\Facades\Input::get('key');
+        $cliente = DB::table('cliente_api')->where('key', '=', $key)->get();
 //        print_r ($cliente);
         if (!empty($cliente)) {
             ///alimentación de log             
@@ -58,7 +61,7 @@ class ServicioWebController extends Controller {
             $log_api->servicio = $request->path();
             $log_api->save();
             ///consulta de recurso            
-            $modulo = DB::table('courseware_studentmodulehistory')
+            $modulo = DB::connection('edxapp')->table('courseware_studentmodulehistory')
                     ->where('student_module_id', '=', $student_module_id)->get();
             return response()->json($modulo);
         } else {

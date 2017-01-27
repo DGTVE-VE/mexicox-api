@@ -65,6 +65,20 @@ return [
             'strict' => false,
             'engine' => null,
         ],
+        
+        'edxapp' => [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'port' => '3306',
+            'database' => 'edxapp',
+            'username' => 'root',
+            'password' => 'm3x1c0X',
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',
